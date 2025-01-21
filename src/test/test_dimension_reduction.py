@@ -34,7 +34,7 @@ import dash_app
     (
         pd.MultiIndex.from_product([
             [2,3],
-            ["orange", "blue"]
+            ["orange", "blue", "yellow", "green", "red"]
         ])
         .to_frame()
     ).values
