@@ -32,12 +32,14 @@ app.secret_key = secrets.token_bytes(32)
 @app.callback(
     Input(component_id={"index": "visualizeDimensionReductionN", "type": "visualizeDimensionReduction_specific"}, component_property='value'),
     Input(component_id={"index": "visualizeDimensionReductionColour", "type": "visualizeDimensionReduction_specific"}, component_property='value'),
+    Input(component_id={"index": "visualizeDimensionReductionMarkerSize", "type": "visualizeDimensionReduction_specific"}, component_property='value'),
     
     Output("dash-figure-loading", 'children'),
     )
 def update_get_dimension_reduction_fig(
         visualizeDimensionReductionN,
-        visualizeDimensionReductionColour
+        visualizeDimensionReductionColour,
+        visualizeDimensionReductionMarkerSize
     ):
 
     return dash_app_viewmodel.update_get_dimension_reduction_fig(**locals())
