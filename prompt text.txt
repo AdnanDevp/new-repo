@@ -1,0 +1,15 @@
+
+-Download desktop app
+- https://claude.ai/download
+
+-config file
+  - file -> settings -> config
+
+
+- Brave MCP Server
+
+- https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search
+ 
+- Github MCP Server
+
+- https://github.com/modelcontextprotocol/servers/tree/main/src/github

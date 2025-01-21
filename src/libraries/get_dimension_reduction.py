@@ -5,7 +5,8 @@ def get_dimension_reduction_layout():
 
     layout = html.Div(
         children=[
-            html.Div("Dimension reduction for plotly.express.data.iris()"),
+            html.H4("Having a dimension reduction"),
+            html.Div(" > plotly.express.data.iris() < "),
 
             html.Br(),
 
