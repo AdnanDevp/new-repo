@@ -1,0 +1,5 @@
+.venv_testo/
+
+__pycache__/
+
+src/test/local_parameter.py
