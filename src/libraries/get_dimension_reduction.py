@@ -1,8 +1,6 @@
 from dash import html, dcc
 
-# ##
 def get_dimension_reduction_layout():
-
     layout = html.Div(
         children=[
             html.H4("Having a dimension reduction"),
@@ -33,6 +31,18 @@ def get_dimension_reduction_layout():
                         id={"index": "visualizeDimensionReductionColour", "type": "visualizeDimensionReduction_specific"},
                     ),
                     html.Br(),
+
+                    html.Div(
+                        children = [
+                            "Marker Size",
+                        ]
+                    ),
+                    dcc.Dropdown(
+                        [6, 8, 10, 12, 14],
+                        value=8,  # Default value
+                        id={"index": "visualizeDimensionReductionMarkerSize", "type": "visualizeDimensionReduction_specific"},
+                    ),
+                    html.Br(),
                 ]
             ),
 
@@ -44,14 +54,15 @@ def get_dimension_reduction_layout():
 
 def get_dimension_reduction_items(
         visualizeDimensionReductionN,
-        visualizeDimensionReductionColour
+        visualizeDimensionReductionColour,
+        visualizeDimensionReductionMarkerSize
     ):
 
     visualize_data = dict()
 
     visualize_data['visualizeDimensionReductionN'] = visualizeDimensionReductionN
-
     visualize_data['visualizeDimensionReductionColour'] = visualizeDimensionReductionColour
+    visualize_data['visualizeDimensionReductionMarkerSize'] = visualizeDimensionReductionMarkerSize
 
     return visualize_data    
 
@@ -60,5 +71,9 @@ def update_get_dimension_reduction_fig_layout(fig, visualize_data):
     title_string = f"{visualize_data['visualizeDimensionReductionN']}-Dimension Reduction plotly.express.data.iris()"
 
     fig.update_layout(title_text=title_string)
+    
+    # Update marker size for all traces in the figure
+    for trace in fig.data:
+        trace.marker.size = visualize_data['visualizeDimensionReductionMarkerSize']
 
     return fig
