@@ -42,21 +42,25 @@ from libraries.visualize_data import Visualize_Data
 # ##
 def update_get_dimension_reduction_fig(
         visualizeDimensionReductionN,
-        visualizeDimensionReductionColour
+        visualizeDimensionReductionColour,
+        visualizeDimensionReductionMarkerSize
     ):
 
-    if ( ctx.triggered_id 
+    if (ctx.triggered_id 
         and bool(visualizeDimensionReductionN)
-        and bool(visualizeDimensionReductionColour) ):
+        and bool(visualizeDimensionReductionColour)
+        and bool(visualizeDimensionReductionMarkerSize)):
 
         visualize_data = get_dimension_reduction_items(
             visualizeDimensionReductionN,
-            visualizeDimensionReductionColour
+            visualizeDimensionReductionColour,
+            visualizeDimensionReductionMarkerSize
         )
 
         X_plot = Group_Data().get_dimension_reduction(visualize_data)
 
         fig = Visualize_Data().get_dimension_reduction(X_plot, visualize_data)
+        fig = update_get_dimension_reduction_fig_layout(fig, visualize_data)
         
         return [
             dcc.Graph(
@@ -66,6 +70,4 @@ def update_get_dimension_reduction_fig(
         ]
 
     else:
-
         raise PreventUpdate
-
