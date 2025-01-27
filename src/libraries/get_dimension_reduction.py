@@ -1,4 +1,5 @@
 from dash import html, dcc
+from .visualize_data import Visualize_Data
 
 def get_dimension_reduction_layout():
     layout = html.Div(
@@ -38,8 +39,8 @@ def get_dimension_reduction_layout():
                         ]
                     ),
                     dcc.Dropdown(
-                        [6, 8, 10, 12, 14],
-                        value=8,  # Default value
+                        Visualize_Data.marker_size_options,
+                        value=Visualize_Data.default_marker_size,  # Default value
                         id={"index": "visualizeDimensionReductionMarkerSize", "type": "visualizeDimensionReduction_specific"},
                     ),
                     html.Br(),
