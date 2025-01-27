@@ -23,51 +23,54 @@ import local_parameter
 
 sys.path.append(os.path.join(os.path.abspath(local_parameter.current_project_folder), 'src'))
 import dash_app
+from libraries.visualize_data import Visualize_Data
 
 
 # Unit tests
 @pytest.mark.parametrize(
     (
         "visualizeDimensionReductionN",
-        "visualizeDimensionReductionColour"
+        "visualizeDimensionReductionColour",
+        "visualizeDimensionReductionMarkerSize"
     ),
     (
         pd.MultiIndex.from_product([
-            [2,3],
-            ["orange", "blue", "yellow", "green", "red"]
+            [2, 3],
+            ["orange", "blue", "yellow", "green", "red"],
+            Visualize_Data.marker_size_options
         ])
         .to_frame()
     ).values
     )
 def test_get_dimension_reduction_fig(
         visualizeDimensionReductionN,
-        visualizeDimensionReductionColour
+        visualizeDimensionReductionColour,
+        visualizeDimensionReductionMarkerSize
     ):
 
     expected = {
-        "visualizeDimensionReductionN" : type(go.Scatter()) if visualizeDimensionReductionN == 2 else type(go.Scatter3d()),
-        "visualizeDimensionReductionColour" : visualizeDimensionReductionColour
+        "visualizeDimensionReductionN": type(go.Scatter()) if visualizeDimensionReductionN == 2 else type(go.Scatter3d()),
+        "visualizeDimensionReductionColour": visualizeDimensionReductionColour,
+        "visualizeDimensionReductionMarkerSize": visualizeDimensionReductionMarkerSize if visualizeDimensionReductionN == 2 else max(2, visualizeDimensionReductionMarkerSize // 2)
     }
 
     def mock_callback():
-
-        context_value.set(AttributeDict(**{"triggered_inputs": [{"prop_id": """{"index": "visualizeDimensionReductionN", "type": "visualizeDimensionReduction_specific"}.value"""}]}))
+        context_value.set(AttributeDict(**{"triggered_inputs": [{"prop_id": """{\"index\": \"visualizeDimensionReductionN\", \"type\": \"visualizeDimensionReduction_specific\"}.value"""}]}))
 
         return dash_app.update_get_dimension_reduction_fig(**{
-            "visualizeDimensionReductionN" : visualizeDimensionReductionN,
-            "visualizeDimensionReductionColour" : visualizeDimensionReductionColour
-            
+            "visualizeDimensionReductionN": visualizeDimensionReductionN,
+            "visualizeDimensionReductionColour": visualizeDimensionReductionColour,
+            "visualizeDimensionReductionMarkerSize": visualizeDimensionReductionMarkerSize
         })
 
     ctx = copy_context()
-
     output = ctx.run(mock_callback)
-
     fig = output[0].figure
 
     actual = {
-        "visualizeDimensionReductionN" : type(fig.data[0]),
-        "visualizeDimensionReductionColour" : fig.data[0]["marker_color"]
+        "visualizeDimensionReductionN": type(fig.data[0]),
+        "visualizeDimensionReductionColour": fig.data[0]["marker_color"],
+        "visualizeDimensionReductionMarkerSize": fig.data[0]["marker"]["size"]
     }
 
     assert expected == actual
