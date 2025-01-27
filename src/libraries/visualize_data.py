@@ -22,7 +22,31 @@ class Visualize_Data:
         
         marker_size = visualize_data.get("visualizeDimensionReductionMarkerSize", self.default_marker_size)
         
-        if visualize_data["visualizeDimensionReductionN"] == 2:
+        if visualize_data["visualizeDimensionReductionN"] == 1:
+            # For 1D, we create a scatter plot with y-values set to a constant
+            # This creates a line of points showing the distribution in 1D
+            fig = go.Scatter(
+                        x = X[0],
+                        y = np.zeros_like(X[0]),  # Set all y values to 0
+                        mode="markers",
+                        marker_color=visualize_data["visualizeDimensionReductionColour"],
+                        marker_size=marker_size
+                    )
+            # Update layout to hide y-axis since it's not meaningful in 1D
+            layout = go.Layout(
+                yaxis=dict(
+                    showticklabels=False,
+                    zeroline=True,
+                    showgrid=False,
+                    title=""
+                ),
+                xaxis=dict(
+                    title="Dimension 1"
+                )
+            )
+            return go.Figure(fig, layout)
+
+        elif visualize_data["visualizeDimensionReductionN"] == 2:
             fig = go.Scatter(
                         x = X[0], 
                         y = X[1],
@@ -30,6 +54,7 @@ class Visualize_Data:
                         marker_color=visualize_data["visualizeDimensionReductionColour"],
                         marker_size=marker_size
                     )
+            return go.Figure(fig)
 
         elif visualize_data["visualizeDimensionReductionN"] == 3:
             # For 3D plots, we typically want slightly smaller markers
@@ -42,5 +67,4 @@ class Visualize_Data:
                         marker_color=visualize_data["visualizeDimensionReductionColour"],
                         marker_size=marker_size_3d
                     )
-
-        return go.Figure(fig)
+            return go.Figure(fig)
