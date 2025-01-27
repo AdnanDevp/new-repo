@@ -17,7 +17,7 @@ def get_dimension_reduction_layout():
                         ]
                     ),
                     dcc.Dropdown(
-                        [2,3],
+                        [1, 2, 3],  # Added 1D option
                         id={"index": "visualizeDimensionReductionN", "type": "visualizeDimensionReduction_specific"},
                     ),
                     html.Br(),
@@ -40,7 +40,7 @@ def get_dimension_reduction_layout():
                     ),
                     dcc.Dropdown(
                         Visualize_Data.marker_size_options,
-                        value=Visualize_Data.default_marker_size,  # Default value
+                        value=Visualize_Data.default_marker_size,
                         id={"index": "visualizeDimensionReductionMarkerSize", "type": "visualizeDimensionReduction_specific"},
                     ),
                     html.Br(),
