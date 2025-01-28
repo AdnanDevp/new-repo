@@ -35,7 +35,7 @@ from libraries.visualize_data import Visualize_Data
     ),
     (
         pd.MultiIndex.from_product([
-            [2, 3],
+            [1, 2, 3],  # Added 1D case
             ["orange", "blue", "yellow", "green", "red"],
             Visualize_Data.marker_size_options
         ])
@@ -49,9 +49,15 @@ def test_get_dimension_reduction_fig(
     ):
 
     expected = {
-        "visualizeDimensionReductionN": type(go.Scatter()) if visualizeDimensionReductionN == 2 else type(go.Scatter3d()),
+        "visualizeDimensionReductionN": (
+            type(go.Scatter()) if visualizeDimensionReductionN in [1, 2] 
+            else type(go.Scatter3d())
+        ),
         "visualizeDimensionReductionColour": visualizeDimensionReductionColour,
-        "visualizeDimensionReductionMarkerSize": visualizeDimensionReductionMarkerSize if visualizeDimensionReductionN == 2 else max(2, visualizeDimensionReductionMarkerSize // 2)
+        "visualizeDimensionReductionMarkerSize": (
+            visualizeDimensionReductionMarkerSize if visualizeDimensionReductionN in [1, 2]
+            else max(2, visualizeDimensionReductionMarkerSize // 2)
+        )
     }
 
     def mock_callback():
