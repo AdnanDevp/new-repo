@@ -1,16 +1,26 @@
 from dash import html, dcc
 from .visualize_data import Visualize_Data
+from .group_data import Group_Data
 
 def get_dimension_reduction_layout():
     layout = html.Div(
         children=[
             html.H4("Having a dimension reduction"),
-            html.Div(" > plotly.express.data.iris() < "),
-
-            html.Br(),
 
             html.Div(
                 children = [
+                    html.Div(
+                        children = [
+                            "Dataset",
+                        ]
+                    ),
+                    dcc.Dropdown(
+                        list(Group_Data.available_datasets.keys()),
+                        value="iris",  # Default dataset
+                        id={"index": "selectedDataset", "type": "visualizeDimensionReduction_specific"},
+                    ),
+                    html.Br(),
+
                     html.Div(
                         children = [
                             "Dimension",
@@ -54,6 +64,7 @@ def get_dimension_reduction_layout():
     return layout
 
 def get_dimension_reduction_items(
+        selectedDataset,
         visualizeDimensionReductionN,
         visualizeDimensionReductionColour,
         visualizeDimensionReductionMarkerSize
@@ -61,6 +72,7 @@ def get_dimension_reduction_items(
 
     visualize_data = dict()
 
+    visualize_data['selectedDataset'] = selectedDataset
     visualize_data['visualizeDimensionReductionN'] = visualizeDimensionReductionN
     visualize_data['visualizeDimensionReductionColour'] = visualizeDimensionReductionColour
     visualize_data['visualizeDimensionReductionMarkerSize'] = visualizeDimensionReductionMarkerSize
@@ -69,7 +81,7 @@ def get_dimension_reduction_items(
 
 def update_get_dimension_reduction_fig_layout(fig, visualize_data):
     
-    title_string = f"{visualize_data['visualizeDimensionReductionN']}-Dimension Reduction plotly.express.data.iris()"
+    title_string = f"{visualize_data['visualizeDimensionReductionN']}-Dimension Reduction of {visualize_data['selectedDataset']} dataset"
 
     fig.update_layout(title_text=title_string)
     
